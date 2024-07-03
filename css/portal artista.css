@@ -1,0 +1,37 @@
+*{
+    margin: 0px 0px;
+    padding: 0px 0px;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+.efeito_ondas{
+    margin-top: 0.59%;
+    height: 38.54%;
+    width: 100%;
+}
+.container1{
+    height: 100vh;
+}
+.botao_branco{
+    margin-top: 10vh;
+    height: 10vh;
+    width: 70%;
+    font-size: 140%;
+    border: 0px solid;
+    background-color: white;
+}
+.botao_branco:hover{
+    background-color: rgb(192, 192, 192);
+}
+
+.garotas_artistas{
+    height: 100%;
+    width: 100%;
+}
