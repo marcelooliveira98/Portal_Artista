@@ -3,13 +3,18 @@
     padding: 0px 0px;
     box-sizing: border-box;
 }
+:root{
+    --fundo-laranja: #FF914D;
+    --cor-verde: #7ED957;
+    --cor-verde-escuro: #65c43d;
+}
 body{
     height: 100vh;
     width: 100vw;
-    background-color: black;
+    background-color: var(--fundo-laranja);
     text-align: center;
     display: grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 50% 50%;
 }
 .efeito_ondas{
     margin-top: 0.59%;
@@ -18,20 +23,58 @@ body{
 }
 .container1{
     height: 100vh;
+    background-image: url("../img/img portal artista/Triangulo preto.png");
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: bottom ;
 }
-.botao_branco{
-    margin-top: 10vh;
+.container1{
+    height: 100%;
+    width: 100%;
+}
+.botao_verde{
+    margin-top: 30vh;
     height: 10vh;
     width: 70%;
     font-size: 140%;
-    border: 0px solid;
-    background-color: white;
+    border: 4px solid;
+    border-color: white;
+    background-color: var(--cor-verde);
 }
-.botao_branco:hover{
-    background-color: rgb(192, 192, 192);
+.botao_verde_2{
+    margin-top: 14vh;
+}
+.botao_verde:hover{
+    background-color: var(--cor-verde-escuro);
+    border-color: rgb(228, 228, 228);
 }
 
-.garotas_artistas{
-    height: 100%;
-    width: 100%;
+.imagem1{
+    height: 50%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.imagem1-2{
+    height: 300px;
+    width: 250px;
+    margin-top: 5%;
+    margin-left: 24.5%;
+    background-image: url("../img/img portal artista/Quadro colorido.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.imagem1-3{
+    margin-left: 3%;
+    background-image: url("../img/img portal artista/Uma mulher de pele branca.png");
+}
+.imagem2{
+    height: 50%;
+}
+.imagem2-2{
+    height: 80%;
+    width: 76%;
+    margin-left: 12.5%;
+    background-image: url("../img/img portal artista/Olho colorido.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
