@@ -1,0 +1,76 @@
+body{
+    background-color: black;
+}
+:root{
+    --cor-laranja: #ff914d;
+}
+.menu{
+    height: 10vh;
+    font-size: 120%;
+    align-items: center;
+    text-align: center;
+    background-color: var(--cor-laranja);
+    display: grid;
+    grid-template-columns: 90% 10%;
+}
+.titulo{
+    margin-left: 7vw;
+}
+.sino{
+    height: 5vh;
+    margin-left: 50%;
+}
+
+/* corpo da pagína com a divisão na metade */
+.corpo{
+    height: 90vh;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+/* Partes 1 e 2*/
+.corpo_p1{
+    height: 100%;
+}
+.corpo_p2{
+    background-image: url("../img/img projetos/Artistas.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* contéudo do corpo_p1 */
+
+.infor{
+    color: white;
+    font-size: 120%;
+    margin-top: 15px;
+    margin-left: 7.5vw;
+}
+
+/* Box com os projetos blz */
+
+.box{
+    margin-top: 5vh;
+    margin-left: 7.5vw;
+    margin-bottom: 2vh;
+    width: 35vw;
+    background-color: white;
+}
+.box_nav{
+    height: 5vh;
+    background-color: var(--cor-laranja);
+    text-align: center;
+    display: grid;
+    grid-template-columns: 10% 90%;
+    align-items: center;
+}
+.lupa{
+    height: 3vh;
+    margin-left: 20%;
+}
+.box_titulo{
+    margin-left: -8%;
+}
+.box_texto{
+    margin-top: 10px;
+}

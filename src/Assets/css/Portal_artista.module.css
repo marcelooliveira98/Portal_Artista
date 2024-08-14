@@ -1,18 +1,14 @@
-*{
-    margin: 0px 0px;
-    padding: 0px 0px;
-    box-sizing: border-box;
-}
 :root{
     --fundo-laranja: #FF914D;
     --cor-verde: #7ED957;
     --cor-verde-escuro: #65c43d;
 }
-body{
+.corpo{
     height: 100vh;
     width: 100vw;
     background-color: var(--fundo-laranja);
     text-align: center;
+    background-image: none;
     display: grid;
     grid-template-columns: 50% 50%;
 }
@@ -54,7 +50,7 @@ body{
     display: grid;
     grid-template-columns: 50% 50%;
 }
-.imagem1-2{
+.imagem1_2{
     height: 300px;
     width: 250px;
     margin-top: 5%;
@@ -63,14 +59,14 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
-.imagem1-3{
+.imagem1_3{
     margin-left: 3%;
     background-image: url("../img/img portal artista/Uma mulher de pele branca.png");
 }
 .imagem2{
     height: 50%;
 }
-.imagem2-2{
+.imagem2_2{
     height: 80%;
     width: 76%;
     margin-left: 12.5%;
