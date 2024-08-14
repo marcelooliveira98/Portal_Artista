@@ -23,6 +23,7 @@
 /* section 2 */
 .artista{
     border: solid 2px;
+    border-color: black;
     color: white;
     border-radius: 1.5em;
     height: 10vh;
