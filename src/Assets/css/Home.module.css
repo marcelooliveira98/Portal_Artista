@@ -1,6 +1,7 @@
 :root{
-    --cor-laranja: #FF914D;
     --cor-laranja-escuro: #fa8136;
+    --cor-verde: #7ed957;
+    --cor-verde-escuro: #62ad42;
 }
 .corpo{
     height: 100vh;
@@ -21,13 +22,15 @@
 
 /* section 2 */
 .artista{
+    border: solid 2px;
+    color: white;
     border-radius: 1.5em;
     height: 10vh;
     width: 70%;
     border: 0px solid;
     font-size: 150%;
-    background-color: var(--cor-laranja);
+    background-color: var(--cor-verde);
 }
 .artista:hover{
-    background-color: var(--cor-laranja-escuro);
+    background-color: var(--cor-verde-escuro);
 }
