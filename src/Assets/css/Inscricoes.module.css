@@ -8,11 +8,6 @@
     display: flex;
 }
 
-.sino1{
-    height: 5vh;
-    margin-left: 50%;
-}
-
 .inscricoes{
     height: 90%;
     width: 26%;
@@ -37,9 +32,6 @@
 .titulo{
     font-size: 160%;
     color: var(--cor-verde);
-}
-.titulo1{
-    font-size: 150%;
 }
 .texto{
     margin: 5% 0px;
@@ -101,10 +93,10 @@
     background-image: url("../img/Inscrições/Um menino e uma curuja.png");
 }
 
-@media only screen and (max-width: 1080px) {
+@media only screen and (max-width: 1026px) {
     .sino1{
         height: 3vh;
-        margin-left: 0vw;
+        margin-left: -5vw;
     }
     .corpo{
         display: inline;

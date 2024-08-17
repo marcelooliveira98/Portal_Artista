@@ -1,6 +1,7 @@
 import styles from "../Assets/css/Projetos.module.css"
 import Lupa from "../Assets/img/img projetos/Lupa.png"
 import Sino from "../Assets/img/img projetos/Sino.png"
+import { Link } from "react-router-dom"
 import "../index.css"
 
 let nome = "Eleriane Paula Branco de Gomes"
@@ -10,9 +11,10 @@ export default function Projetos()
 {
     return(
         <>
-            <nav className={styles.menu}>
+            <nav className="menu">
+                <Link to="/portal_artistas"><div className="seta"></div></Link>
                 <h1 className={styles.titulo}>Histórico de Projetos</h1>
-                <img className={styles.sino} src={Sino} alt="Sino de notificação"/>
+                <Link to="/notificacao"><img className={styles.sino} src={Sino} alt="Sino de notificação" /></Link>
             </nav>
 
             <section className={styles.corpo}>

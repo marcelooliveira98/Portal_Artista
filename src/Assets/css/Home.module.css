@@ -8,7 +8,7 @@
     width: 100vw;
     text-align: center;
     align-items: center;
-    background-image: url("../img/img index/Fundo.jpeg");
+    background-image: url("../img/img index/Fundo.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     display: grid;
@@ -22,8 +22,6 @@
 
 /* section 2 */
 .artista{
-    border: solid 2px;
-    border-color: black;
     color: white;
     border-radius: 1.5em;
     height: 10vh;

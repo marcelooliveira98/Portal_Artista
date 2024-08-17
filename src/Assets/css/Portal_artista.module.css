@@ -1,12 +1,11 @@
 :root{
-    --fundo-laranja: #FF914D;
-    --cor-verde: #7ED957;
-    --cor-verde-escuro: #65c43d;
+    --cor-amarela: #ffde59;
+    --cor-amarelo-escuro: #f7d036;
 }
 .corpo{
     height: 100vh;
     width: 100vw;
-    background-color: var(--fundo-laranja);
+    background-color: white;
     text-align: center;
     background-image: none;
     display: grid;
@@ -19,58 +18,53 @@
 }
 .container1{
     height: 100vh;
-    background-image: url("../img/img portal artista/Triangulo preto.png");
+    background-image: url("../img/img portal artista/Triangulo laranja.png");
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: bottom ;
+    background-size: auto 40vw;
 }
 .container1{
     height: 100%;
     width: 100%;
 }
-.botao_verde{
+.container2{
+    background-image: url('../img/img portal artista/Pinto.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.botao_amarelo{
     margin-top: 30vh;
     height: 10vh;
     width: 70%;
     font-size: 140%;
     border: 4px solid;
-    border-color: white;
-    background-color: var(--cor-verde);
+    border-color: black;
+    background-color: var(--cor-amarela);
 }
 .botao_verde_2{
     margin-top: 14vh;
 }
-.botao_verde:hover{
-    background-color: var(--cor-verde-escuro);
-    border-color: rgb(228, 228, 228);
+.botao_amarelo:hover{
+    background-color: var(--cor-amarelo-escuro);
+    border-color: rgb(56, 56, 56);
 }
 
-.imagem1{
-    height: 50%;
-    display: grid;
-    grid-template-columns: 50% 50%;
-}
-.imagem1_2{
-    height: 300px;
-    width: 250px;
-    margin-top: 5%;
-    margin-left: 24.5%;
-    background-image: url("../img/img portal artista/Quadro colorido.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.imagem1_3{
-    margin-left: 3%;
-    background-image: url("../img/img portal artista/Uma mulher de pele branca.png");
-}
-.imagem2{
-    height: 50%;
-}
-.imagem2_2{
-    height: 80%;
-    width: 76%;
-    margin-left: 12.5%;
-    background-image: url("../img/img portal artista/Olho colorido.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+@media only screen and (max-width: 1026px) {
+    .corpo{
+        display: inline;
+    }
+    .container1{
+        height: 50vh;
+        width: 100vw;
+        background-color: white;
+        background-size: cover;
+        border-bottom: 2px solid;
+    }
+    .container2{
+        height: 50vh;
+    }
+    .botao_amarelo{
+        margin-top: 9.5vh;
+    }
 }

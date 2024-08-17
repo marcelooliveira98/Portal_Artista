@@ -1,4 +1,5 @@
-import estilo from "../Assets/css/Projetos.module.css"
+import "../index.css"
+import { Link } from "react-router-dom"
 import styles from "../Assets/css/Inscricoes.module.css"
 import Sino from "../Assets/img/img projetos/Sino.png"
 
@@ -7,9 +8,10 @@ export default function Inscricoes()
     return(
         <>
             {/* Nome Portal inscri */}
-            <nav className={estilo.menu}>
-                <h1 className={styles.titulo1}>Portal inscrições</h1>
-                <img className={styles.sino1} src={Sino} alt="Sino de notificação"/>
+            <nav className="menu">
+                <Link to="/portal_artistas"><div className="seta"></div></Link>
+                <h1 className="titulo1">Portal inscrições</h1>
+                <Link to="/notificacao"><img className="sino1" src={Sino} alt="Sino de notificação" /></Link>
             </nav>
 
             {/* Meio ou barriga da pagína */}
