@@ -8,7 +8,7 @@ export default function Home()
         <section className={styles.corpo}>
             <h1 className={styles.titulo}>PORTAL<br/>DO<br/>ARTISTA</h1>
 
-            <Link to="/portal_artistas">
+            <Link to="/login">
                 <button className={styles.artista}>Acessar</button>
             </Link>
         </section>

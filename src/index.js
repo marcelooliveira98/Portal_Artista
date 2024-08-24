@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Home from './Home.js';
+import Login from './pagínas/login.js'
+import Criar_conta from './pagínas/criar_conta.js';
+import Recuperar_senha from './pagínas/recuperar_senha.js';
 import Portal_artista from './pagínas/Portal artista.js';
 import Projetos from './pagínas/Projetos.js';
 import Inscricoes from './pagínas/Inscricoes.js';
@@ -12,6 +15,18 @@ const rotas = createBrowserRouter([
   {
     path: "/",
     element: <Home/>
+  },
+  {
+    path: "/login",
+    element: <Login/>
+  },
+  {
+    path: "/criar_conta",
+    element: <Criar_conta/>
+  },
+  {
+    path: "/recuperar_senha",
+    element: <Recuperar_senha/>
   },
   {
     path: "/portal_artistas",
