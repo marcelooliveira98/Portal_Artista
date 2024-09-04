@@ -6,9 +6,11 @@ export default function Criar_conta()
 {
     const [form, setForm] = useState({
         nome: "", 
-        sobrenome: "", 
         email:"", 
         cpf:"", 
+        area: "",
+        biografia: "",
+        link: "",
         senha:"", 
         dia:"",
         mes:"",
@@ -22,9 +24,11 @@ export default function Criar_conta()
             case "nome":
                 setForm({
                     nome: e.target.value, 
-                    sobrenome: form.sobrenome, 
                     email: form.email, 
                     cpf: form.email, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: form.link,
                     senha: form.senha, 
                     dia: form.dia,
                     mes: form.mes,
@@ -32,26 +36,14 @@ export default function Criar_conta()
                     genero: form.genero})
                 break
 
-            case "sobrenome":
-                setForm({
-                    nome: form.nome, 
-                    sobrenome: e.target.value, 
-                    email: form.email, 
-                    cpf: form.cpf, 
-                    senha: form.senha, 
-                    dia: form.senha,
-                    mes: form.mes,
-                    ano: form.ano,
-                    genero: form.genero
-                })
-                break
-
             case "email":
                 setForm({
                     nome: form.nome, 
-                    sobrenome: form.sobrenome, 
                     email: e.target.value, 
                     cpf: form.cpf, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: form.link,
                     senha: form.cpf, 
                     dia: form.dia,
                     mes: form.mes,
@@ -63,9 +55,59 @@ export default function Criar_conta()
             case "cpf":
                 setForm({
                     nome: form.nome, 
-                    sobrenome: form.sobrenome, 
                     email: form.email, 
                     cpf: e.target.value, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: form.link,
+                    senha: form.senha, 
+                    dia: form.dia,
+                    mes: form.mes,
+                    ano: form.ano,
+                    genero: form.genero
+                })
+                break
+
+            case "area":
+                setForm({
+                    nome: form.nome, 
+                    email: form.email, 
+                    cpf: form.cpf, 
+                    area: e.target.value,
+                    biografia: form.biografia,
+                    link: form.link,
+                    senha: form.senha, 
+                    dia: form.dia,
+                    mes: form.mes,
+                    ano: form.ano,
+                    genero: form.genero
+                })
+                break
+
+            case "biografia":
+                setForm({
+                    nome: form.nome, 
+                    email: form.email, 
+                    cpf: form.cpf, 
+                    area: form.area,
+                    biografia: e.target.value,
+                    link: form.link,
+                    senha: form.senha, 
+                    dia: form.dia,
+                    mes: form.mes,
+                    ano: form.ano,
+                    genero: form.genero
+                })
+                break
+
+            case "link":
+                setForm({
+                    nome: form.nome, 
+                    email: form.email, 
+                    cpf: form.cpf, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: e.target.value,
                     senha: form.senha, 
                     dia: form.dia,
                     mes: form.mes,
@@ -77,9 +119,11 @@ export default function Criar_conta()
             case "senha":
                 setForm({
                     nome: form.nome, 
-                    sobrenome: form.sobrenome, 
                     email: form.email, 
                     cpf: form.cpf, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: form.link,
                     senha: e.target.value, 
                     dia: form.dia,
                     mes: form.mes,
@@ -91,9 +135,11 @@ export default function Criar_conta()
             case "dia":
                 setForm({
                     nome: form.nome, 
-                    sobrenome: form.sobrenome, 
                     email: form.email, 
                     cpf: form.cpf, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: form.link,
                     senha: form.senha, 
                     dia: e.target.value,
                     mes: form.mes,
@@ -105,9 +151,11 @@ export default function Criar_conta()
             case "mes":
                 setForm({
                     nome: form.nome, 
-                    sobrenome: form.sobrenome, 
                     email: form.email, 
                     cpf: form.cpf, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: form.link,
                     senha: form.senha, 
                     dia: form.dia,
                     mes: e.target.value,
@@ -119,9 +167,11 @@ export default function Criar_conta()
             case "ano":
                 setForm({
                     nome: form.nome, 
-                    sobrenome: form.sobrenome, 
                     email: form.email, 
                     cpf: form.cpf, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: form.link,
                     senha: form.senha, 
                     dia: form.dia,
                     mes: form.mes,
@@ -133,9 +183,11 @@ export default function Criar_conta()
             case "feminino":
                 setForm({
                     nome: form.nome, 
-                    sobrenome: form.sobrenome, 
                     email: form.email, 
                     cpf: form.cpf, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: form.link,
                     senha: form.senha, 
                     dia: form.dia,
                     mes: form.mes,
@@ -147,9 +199,11 @@ export default function Criar_conta()
             case "masculino":
                 setForm({
                     nome: form.nome, 
-                    sobrenome: form.sobrenome, 
                     email: form.email, 
                     cpf: form.cpf, 
+                    area: form.area,
+                    biografia: form.biografia,
+                    link: form.link,
                     senha: form.senha, 
                     dia: form.dia,
                     mes: form.mes,
@@ -167,16 +221,22 @@ export default function Criar_conta()
                 <p className={styles.texto}>É gratuito</p>
 
                 {/* Campo nome */}
-                <input className={`${styles.campos_form} ${styles.campo_nome}`} id="nome" onChange={(e) => dados_form(e)} placeholder="Nome:" type="text"/>
-
-                {/* Campo sobrenome */}
-                <input className={`${styles.campos_form} ${styles.campo_nome} ${styles.campo_sobrenome}`} id="sobrenome" onChange={(e) => dados_form(e)} placeholder="Sobrenome:" type="text"/>
+                <input className={styles.campos_form} id="nome" onChange={(e) => dados_form(e)} placeholder="Nome:" type="text"/>
                 
                 {/* Campo email */}
                 <input className={styles.campos_form} id="email" onChange={(e) => dados_form(e)} placeholder="Seu e-mail:" type="text"/>
 
                 {/* Campo cpf */}
                 <input className={styles.campos_form} id="cpf" onChange={(e) => dados_form(e)} placeholder="CPF:" type="text"/>
+
+                {/* Area de atuação */}
+                <input className={styles.campos_form} id="area" onChange={(e) => dados_form(e)} placeholder="Area de atuação:" type="text"/>
+
+                {/* Biografia */}
+                <textarea className={styles.campos_form} id="biografia" onChange={(e) => dados_form(e)} placeholder="Insira sua Biografia:" type="text"></textarea>
+
+                {/* Link */}
+                <input className={styles.campos_form} id="link" onChange={(e) => dados_form(e)} placeholder="Insira o link dos seu repositorios:" type="text"/>
 
                 {/* campo senha */}
                 <input className={styles.campos_form} id="senha" onChange={(e) => dados_form(e)} placeholder="Senha:" type="password"/>
