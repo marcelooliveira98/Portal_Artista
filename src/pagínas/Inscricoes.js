@@ -71,7 +71,9 @@ export default function Inscricoes()
                         </div>
                     </div>
 
-                    <input className={styles.botao_andamento} type="button" value="EM ANDAMENTO"/>
+                    <input className={styles.botao_andamento} type="button" value="Em Andamento"/>
+
+                    <Link to="/feedback"><input className={`${styles.botao_andamento} ${styles.feedback}`} type="button" value="Feedback"/></Link>
                 </div>
             </section>
 

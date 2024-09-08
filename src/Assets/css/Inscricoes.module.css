@@ -68,13 +68,16 @@
 .botao_andamento{
     border: solid 0px;
     background-color: #ffde59;
-    margin: 5vh;
+    margin-top: 5vh;
     height: 10%;
     width: 26vw;
     margin-left: 0vw;
 }
 .botao_andamento:hover{
     background-color: #fcd435;
+}
+.feedback{
+    margin-top: 5%;
 }
 
 .novo{
