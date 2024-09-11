@@ -7,6 +7,7 @@ import Recuperar_senha from './pagínas/recuperar_senha.js';
 import Portal_artista from './pagínas/Portal artista.js';
 import Projetos from './pagínas/Projetos.js';
 import Inscricoes from './pagínas/Inscricoes.js';
+import Editais from './pagínas/editais.js';
 import Feedback from './pagínas/feedback.js';
 import Notificacao from "./pagínas/notificacao.js"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -36,6 +37,10 @@ const rotas = createBrowserRouter([
   {
     path: "/inscricoes",
     element: <Inscricoes/>
+  },
+  {
+    path: "/editais",
+    element: <Editais/>
   },
   {
     path: "/feedback",

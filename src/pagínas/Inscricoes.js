@@ -32,7 +32,7 @@ export default function Inscricoes()
 
                         <p className={styles.texto}>07 Agosto de  2024 até 08 Setembro de 2024 </p>
 
-                        <input className={styles.botao_laranja} type="button" value="Visualizar"/>
+                        <Link to="/editais"><input className={styles.botao_laranja} type="button" value="Visualizar"/></Link>
                         
                         <hr className={styles.hr_inscricao}></hr>
 

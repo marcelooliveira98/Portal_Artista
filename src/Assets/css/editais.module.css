@@ -1,0 +1,45 @@
+.corpo{
+    height: 100vh;
+    background-color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.titulo{
+    color: white;
+}
+.fundo{
+    height: 23vh;
+    background-image: url("../img/img editais/trabalho de artistas.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.area_textos{
+    margin: 0 auto;
+    height: 67vh;
+    width: 90vw;
+    overflow: hidden;
+}
+.titulo_noticia{
+    color: #ff914d;
+    font-size: 27px;
+    margin: 1% 0px;
+}
+.sub_titulo{
+    font-weight: bold;
+    margin-bottom: 0.5%;
+}
+.paragrafos{
+    font-size: 20px;
+    margin-bottom: 0.5%;
+}
+.editais{
+    font-size: 20px;
+    margin-top: 5%;
+}
+.botao{
+    margin-top: 1%;
+    border: 0px solid;
+    background-color: white;
+    color: #004aad;
+    font-size: 19px;
+}
