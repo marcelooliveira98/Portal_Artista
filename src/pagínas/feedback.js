@@ -44,7 +44,7 @@ export default function Feedback()
         <div className={styles.corpo}>
             {/* Nome Portal inscri */}
             <nav className={`menu ${styles.menu1}`}>
-                <div></div>
+                <Link to="/inscricoes"><div className={`seta ${styles.seta1}`}></div></Link>
                 <h1 className="titulo1">Feedback</h1>
                 <Link to="/notificacao"><img className="sino1" src={Sino} alt="Sino de notificação" /></Link>
             </nav>

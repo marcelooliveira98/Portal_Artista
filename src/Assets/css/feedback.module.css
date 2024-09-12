@@ -46,6 +46,9 @@
     width: 100vw;
     height: 25%;
 }
+.seta1{
+    background-image: url("../img/img feedback/Seta.png");
+}
 .enviar{
     margin-top: 5%;
     margin-left: 90%;

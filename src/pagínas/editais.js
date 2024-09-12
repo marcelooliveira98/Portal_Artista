@@ -8,7 +8,7 @@ export default function Editais()
         <div className={styles.corpo}>
             {/* Nome Portal inscri */}
             <nav className="menu">
-                <div></div>
+                <Link to="/inscricoes"><div className="seta"></div></Link>
                 <h1 className={`titulo1 ${styles.titulo}`}>Portal inscrições</h1>
                 <Link to="/notificacao"><img className="sino1" src={Sino} alt="Sino de notificação" /></Link>
             </nav>

@@ -11,7 +11,7 @@ import Editais from './pagínas/editais.js';
 import Feedback from './pagínas/feedback.js';
 import Notificacao from "./pagínas/notificacao.js"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './reportWebVitals.js';
 
 const rotas = createBrowserRouter([
   {

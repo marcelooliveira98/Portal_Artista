@@ -43,3 +43,21 @@
     color: #004aad;
     font-size: 19px;
 }
+
+@media only screen and (max-width: 1028px) {
+    .titulo_noticia{
+        margin: 2.5% 0px;
+    }
+    .area_textos{
+        overflow-y: auto;
+    }
+    .sub_titulo{
+        margin-bottom: 2.5%;
+    }
+    .paragrafos{
+        margin-bottom: 2.5%;
+    }
+    .botao{
+        margin-bottom: 2.5%;
+    }
+}
