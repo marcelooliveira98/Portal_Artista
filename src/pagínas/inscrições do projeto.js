@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal do Artista - Inscrição</title>
+    <title>Portal do Artista - Editais</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,40 +54,36 @@
 <body>
 
     <form action="/submit" method="post">
-        <h2>Formulário de Inscrição - Portal do Artista</h2>
+        <h2>Formulário de Edital - Portal do Artista</h2>
 
-        <label for="nome">Nome Completo:</label>
-        <input type="text" id="nome" name="nome" required>
+        <label for="titulo">Título do Edital:</label>
+        <input type="text" id="titulo" name="titulo" required>
 
-        <label for="data-nascimento">Data de Nascimento:</label>
-        <input type="date" id="data-nascimento" name="data-nascimento" required>
+        <label for="descricao">Descrição do Edital:</label>
+        <textarea id="descricao" name="descricao" required></textarea>
 
-        <label for="endereco">Endereço:</label>
-        <input type="text" id="endereco" name="endereco" required>
+        <label for="prazo_inscricao">Prazo de Inscrição:</label>
+        <input type="date" id="prazo_inscricao" name="prazo_inscricao" required>
 
-        <label for="telefone">Telefone:</label>
-        <input type="tel" id="telefone" name="telefone" required>
+        <label for="criterios_selecao">Critérios de Seleção:</label>
+        <textarea id="criterios_selecao" name="criterios_selecao" required></textarea>
 
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required>
+        <label for="organizador">Organizador:</label>
+        <input type="text" id="organizador" name="organizador" required>
 
-        <label for="nome-projeto">Nome do Projeto:</label>
-        <input type="text" id="nome-projeto" name="nome-projeto" required>
+        <label for="categoria_artistica">Categoria Artística:</label>
+        <input type="text" id="categoria_artistica" name="categoria_artistica" required>
 
-        <label for="objetivo">Objetivo do Projeto:</label>
-        <textarea id="objetivo" name="objetivo" required></textarea>
+        <label for="detalhes_financiamento">Detalhes de Financiamento:</label>
+        <textarea id="detalhes_financiamento" name="detalhes_financiamento" required></textarea>
 
-        <label for="justificativa">Justificativa do Projeto:</label>
-        <textarea id="justificativa" name="justificativa" required></textarea>
+        <label for="processo_inscricao">Processo de Inscrição:</label>
+        <textarea id="processo_inscricao" name="processo_inscricao" required></textarea>
 
-        <label for="cronograma">Cronograma de Execução:</label>
-        <textarea id="cronograma" name="cronograma" required></textarea>
+        <label for="data_publicacao">Data de Publicação:</label>
+        <input type="date" id="data_publicacao" name="data_publicacao" required>
 
-        <label for="portifolio">Portfólio (link ou descrição):</label>
-        <textarea id="portifolio" name="portifolio" required></textarea>
-
-        <input type="submit" value="Enviar Inscrição">
-
+        <input type="submit" value="Enviar Edital">
     </form>
 
 </body>
