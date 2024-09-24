@@ -1,41 +1,55 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
+const sqlite3 = require('sqlite3').verbose();
 
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-// Middleware para analisar os dados enviados no formulário
+// Configurar middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static('public')); // Para servir arquivos estáticos como HTML
 
-// Rota para exibir o formulário HTML
-app.get('/form', (req, res) => {
-    res.sendFile(path.join(__dirname, 'formulario.html')); // Insira o caminho do seu arquivo HTML
+// Conexão com o banco de dados SQLite
+const db = new sqlite3.Database('./database.db', (err) => {
+    if (err) {
+        console.error(err.message);
+    }
+    console.log('Conectado ao banco de dados SQLite.');
 });
 
-// Rota para processar os dados do formulário
+// Rota para exibir o formulário
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/form.html'); // Certifique-se de que o caminho está correto
+});
+
+// Rota para lidar com o envio do formulário
 app.post('/submit', (req, res) => {
-    const { nome, 'data-nascimento': dataNascimento, endereco, telefone, email, 'nome-projeto': nomeProjeto, objetivo, justificativa, cronograma, portifolio } = req.body;
+    const { titulo, descricao, prazo_inscricao, criterios_selecao, organizador, categoria_artistica, detalhes_financiamento, processo_inscricao, data_publicacao } = req.body;
 
-    // Exibir os dados no console (para ver que estão chegando corretamente)
-    console.log({
-        nome,
-        dataNascimento,
-        endereco,
-        telefone,
-        email,
-        nomeProjeto,
-        objetivo,
-        justificativa,
-        cronograma,
-        portifolio
+    const sql = `INSERT INTO editais (Titulo, Descricao, PrazoInscricao, CriteriosSelecao, Organizador, CategoriaArtistica, DetalhesFinanciamento, ProcessoInscricao, DataPublicacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    
+    db.run(sql, [titulo, descricao, prazo_inscricao, criterios_selecao, organizador, categoria_artistica, detalhes_financiamento, processo_inscricao, data_publicacao], function(err) {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log(`Um registro foi inserido com o ID ${this.lastID}`);
+        res.send('Edital enviado com sucesso!');
     });
+});
 
-    // Enviar uma resposta de sucesso ao cliente
-    res.send('Dados do formulário recebidos com sucesso!');
+// Fecha a conexão com o banco de dados quando o servidor é encerrado
+process.on('SIGINT', () => {
+    db.close((err) => {
+        if (err) {
+            console.error(err.message);
+        }
+        console.log('Conexão com o banco de dados fechada.');
+        process.exit(0);
+    });
 });
 
 // Iniciar o servidor
-app.listen(port, () => {
-    console.log(`Servidor rodando em http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Servidor está rodando em http://localhost:${PORT}`);
 });
