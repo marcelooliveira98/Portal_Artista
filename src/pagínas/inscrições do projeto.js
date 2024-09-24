@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal do Artista - Editais</title>
+    <title>Cadastro de Edital</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,15 +27,11 @@
             margin: 10px 0 5px;
             color: #333;
         }
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-        }
-        textarea {
-            height: 100px;
-            resize: none;
         }
         input[type="submit"] {
             background-color: #4CAF50;
@@ -53,37 +49,40 @@
 </head>
 <body>
 
-    <form action="/submit" method="post">
-        <h2>Formulário de Edital - Portal do Artista</h2>
+    <form action="/editais" method="post">
+        <h2>Cadastro de Edital</h2>
 
         <label for="titulo">Título do Edital:</label>
         <input type="text" id="titulo" name="titulo" required>
 
-        <label for="descricao">Descrição do Edital:</label>
+        <label for="descricao">Descrição:</label>
         <textarea id="descricao" name="descricao" required></textarea>
 
-        <label for="prazo_inscricao">Prazo de Inscrição:</label>
-        <input type="date" id="prazo_inscricao" name="prazo_inscricao" required>
+        <label for="categoria">Categoria Artística:</label>
+        <select id="categoria" name="categoria" required>
+            <option value="musica">Música</option>
+            <option value="artes-visuais">Artes Visuais</option>
+            <option value="danca">Dança</option>
+            <!-- Adicione mais opções conforme necessário -->
+        </select>
 
-        <label for="criterios_selecao">Critérios de Seleção:</label>
-        <textarea id="criterios_selecao" name="criterios_selecao" required></textarea>
+        <label for="prazo">Prazo de Inscrição:</label>
+        <input type="date" id="prazo" name="prazo" required>
 
-        <label for="organizador">Organizador:</label>
+        <label for="detalhes">Detalhes do Financiamento:</label>
+        <textarea id="detalhes" name="detalhes" required></textarea>
+
+        <label for="criterios">Critérios de Seleção:</label>
+        <textarea id="criterios" name="criterios" required></textarea>
+
+        <label for="processo">Processo de Inscrição:</label>
+        <textarea id="processo" name="processo" required></textarea>
+
+        <label for="organizador">Contato do Organizador:</label>
         <input type="text" id="organizador" name="organizador" required>
 
-        <label for="categoria_artistica">Categoria Artística:</label>
-        <input type="text" id="categoria_artistica" name="categoria_artistica" required>
+        <input type="submit" value="Cadastrar Edital">
 
-        <label for="detalhes_financiamento">Detalhes de Financiamento:</label>
-        <textarea id="detalhes_financiamento" name="detalhes_financiamento" required></textarea>
-
-        <label for="processo_inscricao">Processo de Inscrição:</label>
-        <textarea id="processo_inscricao" name="processo_inscricao" required></textarea>
-
-        <label for="data_publicacao">Data de Publicação:</label>
-        <input type="date" id="data_publicacao" name="data_publicacao" required>
-
-        <input type="submit" value="Enviar Edital">
     </form>
 
 </body>
