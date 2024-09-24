@@ -3,53 +3,43 @@ const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-// Configurar middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static('public')); // Para servir arquivos estáticos como HTML
+// Configura o body-parser para receber dados do formulário
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Conexão com o banco de dados SQLite
-const db = new sqlite3.Database('./database.db', (err) => {
+const db = new sqlite3.Database('./bancoDeDados.db', (err) => {
     if (err) {
-        console.error(err.message);
+        console.error('Erro ao conectar ao banco de dados:', err);
+    } else {
+        console.log('Conectado ao banco de dados SQLite.');
     }
-    console.log('Conectado ao banco de dados SQLite.');
 });
 
-// Rota para exibir o formulário
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/form.html'); // Certifique-se de que o caminho está correto
+// Rota para exibir o formulário HTML
+app.get('/cadastro-edital', (req, res) => {
+    res.sendFile(__dirname + '/caminho/para/seu/formulario.html');
 });
 
-// Rota para lidar com o envio do formulário
-app.post('/submit', (req, res) => {
-    const { titulo, descricao, prazo_inscricao, criterios_selecao, organizador, categoria_artistica, detalhes_financiamento, processo_inscricao, data_publicacao } = req.body;
+// Rota para tratar os dados do formulário
+app.post('/editais', (req, res) => {
+    const { titulo, descricao, categoria, prazo, detalhes, criterios, processo, organizador } = req.body;
 
-    const sql = `INSERT INTO editais (Titulo, Descricao, PrazoInscricao, CriteriosSelecao, Organizador, CategoriaArtistica, DetalhesFinanciamento, ProcessoInscricao, DataPublicacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    
-    db.run(sql, [titulo, descricao, prazo_inscricao, criterios_selecao, organizador, categoria_artistica, detalhes_financiamento, processo_inscricao, data_publicacao], function(err) {
+    const sql = `INSERT INTO editais (Titulo, Descricao, CategoriaArtistica, PrazoInscricao, DetalhesFinanciamento, CriteriosSelecao, ProcessoInscricao, Organizador, DataPublicacao)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, date('now'))`;
+
+    db.run(sql, [titulo, descricao, categoria, prazo, detalhes, criterios, processo, organizador], (err) => {
         if (err) {
-            return console.error(err.message);
+            console.error('Erro ao inserir os dados no banco de dados:', err);
+            res.status(500).send('Erro ao cadastrar o edital.');
+        } else {
+            res.send('Edital cadastrado com sucesso!');
         }
-        console.log(`Um registro foi inserido com o ID ${this.lastID}`);
-        res.send('Edital enviado com sucesso!');
     });
 });
 
-// Fecha a conexão com o banco de dados quando o servidor é encerrado
-process.on('SIGINT', () => {
-    db.close((err) => {
-        if (err) {
-            console.error(err.message);
-        }
-        console.log('Conexão com o banco de dados fechada.');
-        process.exit(0);
-    });
-});
-
-// Iniciar o servidor
-app.listen(PORT, () => {
-    console.log(`Servidor está rodando em http://localhost:${PORT}`);
+// Inicia o servidor
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
 });
