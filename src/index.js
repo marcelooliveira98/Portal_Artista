@@ -8,6 +8,8 @@ import Portal_artista from './pagínas/Portal artista.js';
 import Projetos from './pagínas/Projetos.js';
 import Inscricoes from './pagínas/Inscricoes.js';
 import Editais from './pagínas/editais.js';
+import Inscrições_do_projeto from './pagínas/inscrições_do_projeto.js';
+import Cadrasto_de_proj from './pagínas/cadrasto_de_proj.js';
 import Feedback from './pagínas/feedback.js';
 import Notificacao from "./pagínas/notificacao.js"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -41,6 +43,14 @@ const rotas = createBrowserRouter([
   {
     path: "/editais",
     element: <Editais/>
+  },
+  {
+    path: "/cadastro-edital",
+    element: <Inscrições_do_projeto/>
+  },
+  {
+    path: "/cadastro",
+    element: <Cadrasto_de_proj/>
   },
   {
     path: "/feedback",

@@ -32,7 +32,7 @@ export default function Editais()
 
                 <p className={styles.editais}>Confira os editais:</p>
 
-                <Link><input className={styles.botao} type="button" value="Cultura+ PB" /></Link>
+                <Link to="/cadastro-edital"><input className={styles.botao} type="button" value="Cultura+ PB" /></Link>
             </div>
         </div>
     )

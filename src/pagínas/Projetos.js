@@ -1,16 +1,35 @@
 import styles from "../Assets/css/Projetos.module.css"
 import Lupa from "../Assets/img/img projetos/Lupa.png"
 import Sino from "../Assets/img/img projetos/Sino.png"
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import "../index.css"
 
 let nome = "Eleriane Paula Branco de Gomes"
 let cpf = "000.000.000.00"
 
-export default function Projetos()
+var contado = 0
+
+function login()
 {
+    contado += 1
+
+    if (contado == 1) {
+        let email = prompt("Digite seu email:")
+        let senha = prompt("Digite sua senha:")
+    
+        fetch(`http://localhost:3001/validar?email=${email}&senha=${senha}`).then(dados => dados.json()).then(dados => {
+            localStorage.setItem("usuario_id", dados.UsuarioID)
+        })
+    }
+}
+
+export default function PsetBotao_criar_projrojetos()
+{
+    login()
+
     return(
-        <>
+        <div>
             <nav className="menu">
                 <Link to="/portal_artistas"><div className="seta"></div></Link>
                 <h1 className={styles.titulo}>Histórico de Projetos</h1>
@@ -19,7 +38,6 @@ export default function Projetos()
 
             <section className={styles.corpo}>
                 <div className={styles.corpo_p1}>
-                    <p className={styles.infor}>{nome} <br/> CPF: {cpf}</p>
 
                     {/* Box 1 */}
 
@@ -53,10 +71,14 @@ export default function Projetos()
 
                         <p className={styles.box_texto}>Participação em programas de residência onde artistas vivem e trabalham juntos por um período específico de tempo, colaborando e produzindo arte.</p>
                     </div>
+
+                    {/* Criar um projeto */}
+
+                    <Link to="/cadastro"><input className={styles.btn_criar_proj} value="Criar um novo projeto" type="button"/></Link>
                 </div>
 
                 <div className={`${styles.corpo_p1} ${styles.corpo_p2}`}></div>
             </section>
-        </>
+        </div>
     )
 }

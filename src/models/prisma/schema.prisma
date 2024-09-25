@@ -1,0 +1,154 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// generator erd {
+//   provider = "prisma-erd-generator"
+  
+// }
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  UsuarioID     String       @id
+  Nome          String
+  Email         String
+  Senha         String
+  Perfil        String    @default("Público Geral")
+  DataCadastro  DateTime?
+  Ativo         Boolean
+
+  // Relacionamentos
+  PerfisArtistas       PerfisArtistas[]
+  InscricoesEditais    InscricoesEditais[]
+  InscricoesEventos    InscricoesEventos[]
+  ProjetosColaborativos ProjetosColaborativos[]
+  ParticipacoesProjetos ParticipacoesProjetos[]
+  FeedbacksProjetos    FeedbacksProjetos[]
+  DuvidasSugestoesErros DuvidasSugestoesErros[]
+}
+
+model PerfisArtistas {
+  PerfilArtistaID String     @id @default(uuid())
+  UsuarioID       String
+  AreaAtuacao     String
+  Biografia       String?
+  LinkPortfolio   String?
+  FotoPerfil      String?
+
+  // Relacionamento
+  usuario         Usuario  @relation(fields: [UsuarioID], references: [UsuarioID])
+}
+
+model Editais {
+  EditalID             Int      @id @default(autoincrement())
+  Titulo               String
+  Descricao            String
+  CategoriaArtistica   String
+  PrazoInscricao       DateTime
+  DetalhesFinanciamento String?
+  CriteriosSelecao     String
+  ProcessoInscricao    String
+  Organizador          String
+  DataPublicacao       DateTime
+
+  // Relacionamentos
+  InscricoesEditais InscricoesEditais[]
+}
+
+model InscricoesEditais {
+  InscricaoEditalID Int     @id @default(autoincrement())
+  EditalID          Int
+  UsuarioID         String
+  Status            String
+  DataInscricao     DateTime
+  Feedback          String?
+
+  // Relacionamentos
+  edital   Editais  @relation(fields: [EditalID], references: [EditalID])
+  usuario  Usuario  @relation(fields: [UsuarioID], references: [UsuarioID])
+}
+
+model Eventos {
+  EventoID        Int     @id @default(autoincrement())
+  NomeEvento      String
+  Descricao       String
+  DataHora        DateTime
+  Localizacao     String
+  Organizador     String
+  InfoIngresso    String?
+  ImagemCartaz    String?
+  DataPublicacao  DateTime
+
+  // Relacionamentos
+  InscricoesEventos InscricoesEventos[]
+}
+
+model InscricoesEventos {
+  InscricaoEventoID Int     @id @default(autoincrement())
+  EventoID          Int
+  UsuarioID         String
+  DataInscricao     DateTime
+
+  // Relacionamentos
+  evento   Eventos  @relation(fields: [EventoID], references: [EventoID])
+  usuario  Usuario  @relation(fields: [UsuarioID], references: [UsuarioID])
+}
+
+model ProjetosColaborativos {
+  ProjetoID            Int     @id @default(autoincrement())
+  Titulo               String
+  Descricao            String
+  AreaAtuacaoNecessaria String
+  Localizacao          String?
+  TipoColaboracao      String
+  CriadorID            String
+  DataCriacao          DateTime
+
+  // Relacionamentos
+  criador        Usuario  @relation(fields: [CriadorID], references: [UsuarioID])
+  ParticipacoesProjetos ParticipacoesProjetos[]
+  FeedbacksProjetos FeedbacksProjetos[]
+}
+
+model ParticipacoesProjetos {
+  ParticipacaoID  Int     @id @default(autoincrement())
+  ProjetoID       Int
+  ParticipanteID  String
+  DataParticipacao DateTime
+
+  // Relacionamentos
+  projeto    ProjetosColaborativos  @relation(fields: [ProjetoID], references: [ProjetoID])
+  participante Usuario              @relation(fields: [ParticipanteID], references: [UsuarioID])
+}
+
+model FeedbacksProjetos {
+  FeedbackID     Int     @id @default(autoincrement())
+  ProjetoID      Int
+  AutorID        String
+  Comentario     String?
+  Nota           Int?
+  DataFeedback   DateTime
+
+  // Relacionamentos
+  projeto   ProjetosColaborativos  @relation(fields: [ProjetoID], references: [ProjetoID])
+  autor     Usuario                @relation(fields: [AutorID], references: [UsuarioID])
+}
+
+model DuvidasSugestoesErros {
+  DuvidaSugestaoErroID Int     @id @default(autoincrement())
+  UsuarioID            String
+  Tipo                 String
+  Descricao            String
+  ArquivoAnexo         String
+  DataEnvio            DateTime
+
+  // Relacionamentos
+  usuario   Usuario  @relation(fields: [UsuarioID], references: [UsuarioID])
+}

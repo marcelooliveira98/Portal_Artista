@@ -23,12 +23,14 @@ body{
 
 /* Partes 1 e 2*/
 .corpo_p1{
-    height: 100%;
+    height: auto;
+    width: 100%;
 }
 .corpo_p2{
     background-image: url("../img/img projetos/Artistas.png");
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-size: cover;
+    overflow: hidden;
     /* height: 90vh; */
     height: 90vh;
     width: 50vw;
@@ -72,6 +74,13 @@ body{
 .box_texto{
     margin-top: 10px;
 }
+.btn_criar_proj{
+    background-color: rgb(247, 247, 127);
+    border: 0px solid;
+    height: 8%;
+    width: 35vw;
+    margin-left: 7.5vw;
+}
 
 @media only screen and (max-width: 1026px) {
     .sino{
@@ -91,5 +100,10 @@ body{
     .box{
         width: 90vw;
         margin-left: 5vw;
+    }
+    .btn_criar_proj{
+        height: 5vh;
+        width: 90vw;
+        margin-left: 4.5vw;
     }
 }
