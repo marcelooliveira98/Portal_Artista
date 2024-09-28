@@ -111,6 +111,41 @@ app.get("/proj_collabe", async (request, response) => {
     })
 })
 
+app.get("/get_project", (request, response) => {
+    const user_id = request.query.id
+
+    async function main()
+    {
+        let dados = await prisma.projetosColaborativos.findMany({
+            where: {
+                CriadorID: user_id
+            }
+        })
+
+        if (dados.length > 0) {
+            for (let i = 0; i < dados.length; i++) {
+                delete dados[i].ProjetoID
+                delete dados[i].AreaAtuacaoNecessaria
+                delete dados[i].Localizacao
+                delete dados[i].TipoColaboracao
+                delete dados[i].CriadorID
+                delete dados[i].DataCriacao
+            }
+    
+            response.send(dados)
+
+        } else {
+            response.send(false)
+        }
+    }
+
+    main().then(async () => await prisma.$disconnect()).catch(async (e) => {
+        console.log(e)
+        await prisma.$disconnect()
+        process.exit(1)
+    })
+})
+
 app.get('/editais', (req, res) => {
     const titulo = req.query.titulo
     const descricao = req.query.descricao

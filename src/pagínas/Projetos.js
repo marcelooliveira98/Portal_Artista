@@ -1,12 +1,10 @@
 import styles from "../Assets/css/Projetos.module.css"
 import Lupa from "../Assets/img/img projetos/Lupa.png"
 import Sino from "../Assets/img/img projetos/Sino.png"
-import { useState } from "react"
+import Blocos_de_projetos from "./blocos_de_projetos.js"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import "../index.css"
-
-let nome = "Eleriane Paula Branco de Gomes"
-let cpf = "000.000.000.00"
 
 var contado = 0
 
@@ -14,7 +12,7 @@ function login()
 {
     contado += 1
 
-    if (contado == 1) {
+    if (contado === 1) {
         let email = prompt("Digite seu email:")
         let senha = prompt("Digite sua senha:")
     
@@ -26,7 +24,34 @@ function login()
 
 export default function PsetBotao_criar_projrojetos()
 {
-    login()
+
+    const [blocos_proj, setBlocos_proj] = useState([])
+
+    function Repete() {
+        login()
+        
+        useEffect(() => {
+          // Simulando um delay de 5 segundos antes de executar o fetch
+          const timer = setTimeout(() => {
+            fetch(`http://localhost:3001/get_project?id=${localStorage.getItem("usuario_id")}`)
+              .then(response => response.json())
+              .then(dados => {
+                const novosBlocos = [];
+      
+                for (let i = 0; i < dados.length; i++) {
+                  novosBlocos.push(<Blocos_de_projetos key={i} titulo={dados[i].Titulo} descricao={dados[i].Descricao} />);
+                }
+      
+                setBlocos_proj(novosBlocos); // Atualiza o estado com os novos blocos
+              });
+          }, 50); // Executa o fetch após 5 segundos
+      
+          // Função de limpeza caso o componente seja desmontado antes do timeout ou fetch serem concluídos
+          return () => clearTimeout(timer);
+        }, []); // O array vazio [] garante que o efeito seja executado apenas uma vez após a montagem
+      
+        return <div>{blocos_proj}</div>;
+      }
 
     return(
         <div>
@@ -71,6 +96,9 @@ export default function PsetBotao_criar_projrojetos()
 
                         <p className={styles.box_texto}>Participação em programas de residência onde artistas vivem e trabalham juntos por um período específico de tempo, colaborando e produzindo arte.</p>
                     </div>
+
+                    {/* <Blocos_de_projetos titulo="oi" descricao="olá"/> */}
+                    {Repete()}
 
                     {/* Criar um projeto */}
 
