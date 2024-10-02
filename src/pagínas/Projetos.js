@@ -6,30 +6,13 @@ import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import "../index.css"
 
-var contado = 0
-
-function login()
-{
-    contado += 1
-
-    if (contado === 1) {
-        let email = prompt("Digite seu email:")
-        let senha = prompt("Digite sua senha:")
-    
-        fetch(`http://localhost:3001/validar?email=${email}&senha=${senha}`).then(dados => dados.json()).then(dados => {
-            localStorage.setItem("usuario_id", dados.UsuarioID)
-        })
-    }
-}
-
-export default function PsetBotao_criar_projrojetos()
+export default function Projetos()
 {
 
     const [blocos_proj, setBlocos_proj] = useState([])
 
     function Repete() {
-        login()
-        
+                
         useEffect(() => {
           // Simulando um delay de 5 segundos antes de executar o fetch
           const timer = setTimeout(() => {

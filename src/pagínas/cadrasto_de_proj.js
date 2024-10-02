@@ -25,6 +25,7 @@ export default function CadastroDeProjeto() {
   {
     console.log(dados.tipoColaboracao)
     fetch(`http://localhost:3001/proj_collabe?titulo=${dados.titulo}&descricao=${dados.descricao}&area=${dados.areaAtuacaoNecessaria}&localizacao=${dados.localizacao}&tipo=${dados.tipoColaboracao}&criadorid=${localStorage.getItem("usuario_id")}`)
+    window.location.href = "/projetos"
   }
 
   return (

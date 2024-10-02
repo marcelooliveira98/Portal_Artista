@@ -30,6 +30,23 @@ export default function Login()
         }
     }
 
+    async function login(dados2)
+    {   
+        await fetch(`http://localhost:3001/validar?email=${dados2.email}&senha=${dados2.senha}`).then(dados => dados.json()).then(async auteticacao => {
+            if (auteticacao == false) {
+                alert("Email ou senha estão incorretos")
+    
+            } else {
+                await fetch(`http://localhost:3001/validar?email=${dados2.email}&senha=${dados2.senha}`).then(dados => dados.json()).then(dados => {
+                    localStorage.setItem("usuario_id", dados.UsuarioID)
+                })
+    
+                window.location.href = "/portal_artistas"
+            }
+
+        })
+    }
+
     return(
         <div className={styles.corpo}>
             <div className={styles.parte1}>
@@ -40,7 +57,7 @@ export default function Login()
                     <input className={styles.campos_form} id="email" onChange={(e) => pegar_dados(e)} placeholder="Email:" type="text"/>
                     <input className={styles.campos_form} id="senha" onChange={(e) => pegar_dados(e)} placeholder="Senha:" type="password"/>
 
-                    <Link to="/portal_artistas"><input className={`${styles.campos_form} ${styles.botao_enviar}`} type="button" value="Entrar"/></Link>
+                    <input className={`${styles.campos_form} ${styles.botao_enviar}`} onClick={() => login(dados)} type="button" value="Entrar"/>
 
                     <Link to="/recuperar_senha"><p className={styles.esquece_senha}>Esqueceu a Senhar?</p></Link>
 

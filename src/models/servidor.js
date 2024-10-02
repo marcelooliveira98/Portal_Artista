@@ -91,17 +91,21 @@ app.get("/proj_collabe", async (request, response) => {
 
     async function main()
     {
-        await prisma.projetosColaborativos.create({
-            data: {
-                Titulo: titulo,
-                Descricao: descricao,
-                AreaAtuacaoNecessaria: area,
-                Localizacao: localizacao,
-                TipoColaboracao: tipo.toString(),
-                CriadorID: id_criador,
-                DataCriacao: new Date().toISOString()
-            }
-        })
+        try{
+            await prisma.projetosColaborativos.create({
+                data: {
+                    Titulo: titulo,
+                    Descricao: descricao,
+                    AreaAtuacaoNecessaria: area,
+                    Localizacao: localizacao,
+                    TipoColaboracao: tipo.toString(),
+                    CriadorID: id_criador,
+                    DataCriacao: new Date().toISOString()
+                }
+            })
+        } catch(e) {
+            console.log(e)
+        }
     }
 
     main().then(async () => await prisma.$disconnect()).catch(async (e) => {
