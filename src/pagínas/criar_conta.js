@@ -1,179 +1,79 @@
-import styles from "../Assets/css/criar_conta.module.css"
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import styles from "../Assets/css/criar_conta.module.css";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-export default function Criar_conta()
-{
+export default function Criar_conta() {
     const [form, setForm] = useState({
-        nome: "", 
-        email:"", 
+        nome: "",
+        email: "",
         perfil: "",
         area: "",
         biografia: "",
         link: "",
         foto: "",
-        senha:"", 
-    })
+        senha: "",
+    });
 
-    function dados_form(e)
-    {
-        switch (e.target.id) {
-            case "nome":
-                setForm({
-                    nome: e.target.value, 
-                    email: form.email, 
-                    perfil: form.perfil,
-                    area: form.area,
-                    biografia: form.biografia,
-                    link: form.link,
-                    foto: form.foto,
-                    senha: form.senha
-                })
-                break
+    function dados_form(e) {
+        setForm({
+            ...form,
+            [e.target.id]: e.target.value,
+        });
+    }
 
-            case "email":
-                setForm({
-                    nome: form.nome, 
-                    email: e.target.value, 
-                    perfil: form.perfil,
-                    area: form.area,
-                    biografia: form.biografia,
-                    link: form.link,
-                    foto: form.foto,
-                    senha: form.senha, 
-                })
-                break
+    async function enviar(nome, email, perfil, area, biografia, link, foto, senha) {
+        if (perfil.length === 0) {
+            perfil = "Público Geral";
+        }
 
-            case "perfil":
-                setForm({
-                    nome: form.nome, 
-                    email: form.email, 
-                    perfil: e.target.value,
-                    area: form.area,
-                    biografia: form.biografia,
-                    link: form.link,
-                    foto: form.foto,
-                    senha: form.senha
-                })
-                break
+        try {
+            const response = await fetch(`http://localhost:3001/enviar_cadastro_de_artista`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nome, email, perfil, area, biografia, link, foto, senha }),
+            });
 
-            case "area":
-                setForm({
-                    nome: form.nome, 
-                    email: form.email, 
-                    perfil: e.target.value,
-                    area: e.target.value,
-                    biografia: form.biografia,
-                    link: form.link,
-                    foto: form.foto,
-                    senha: form.senha, 
-                })
-                break
+            const result = await response.json();
 
-            case "biografia":
-                setForm({
-                    nome: form.nome, 
-                    email: form.email, 
-                    perfil: e.target.value,
-                    area: form.area,
-                    biografia: e.target.value,
-                    link: form.link,
-                    foto: form.foto,
-                    senha: form.senha, 
-                })
-                break
-
-            case "link":
-                setForm({
-                    nome: form.nome, 
-                    email: form.email, 
-                    perfil: e.target.value,
-                    area: form.area,
-                    biografia: form.biografia,
-                    link: e.target.value,
-                    foto: form.foto,
-                    senha: form.senha, 
-                })
-                break
-
-            case "foto":
-                setForm({
-                    nome: form.nome, 
-                    email: form.email, 
-                    perfil: e.target.value,
-                    area: form.area,
-                    biografia: form.biografia,
-                    link: form.link,
-                    foto: e.target.value,
-                    senha: form.senha, 
-                })
-                break
-            
-            case "senha":
-                setForm({
-                    nome: form.nome, 
-                    email: form.email, 
-                    perfil: form.perfil,
-                    area: form.area,
-                    biografia: form.biografia,
-                    link: form.link,
-                    foto: form.foto,
-                    senha: e.target.value
-                })
-                break
+            if (result.token) {
+                localStorage.setItem("token", result.token);
+                alert("Conta criada com sucesso!");
+                window.location.href = "/portal_artistas"; // Redireciona para a página protegida
+            } else {
+                alert("Erro ao criar a conta. Verifique os dados e tente novamente.");
+            }
+        } catch (error) {
+            console.error("Erro:", error);
+            alert("Erro ao criar a conta. Tente novamente mais tarde.");
         }
     }
 
-    function enviar(nome, email, perfil, area, biografia, link, foto, senha)
-    {
-        console.log(area)
-        if (perfil.length == 0) {
-            perfil = "Público Geral"
-        }
-        fetch(`http://localhost:3001/enviar_cadastro_de_artista?area=${area}&biografia=${biografia}&link=${link}&foto=${foto}&nome=${nome}&email=${email}&perfil=${perfil}&senha=${senha}`)
-    }
-
-    return(
+    return (
         <div className={styles.corpo}>
             <form className={styles.formulario}>
                 <h1 className={styles.titulo}>Abra uma conta</h1>
                 <p className={styles.texto}>É gratuito</p>
 
-                {/* Campo nome */}
-                <input className={styles.campos_form} id="nome" onChange={(e) => dados_form(e)} placeholder="Nome:" type="text"/>
-                
-                {/* Campo email */}
-                <input className={styles.campos_form} id="email" onChange={(e) => dados_form(e)} placeholder="Seu e-mail:" type="text"/>
-
-                {/* Perfil */}
-                <select className={styles.campos_form} id="perfil" onChange={(e) => dados_form(e)}>
+                <input className={styles.campos_form} id="nome" onChange={dados_form} placeholder="Nome:" type="text" />
+                <input className={styles.campos_form} id="email" onChange={dados_form} placeholder="Seu e-mail:" type="text" />
+                <select className={styles.campos_form} id="perfil" onChange={dados_form}>
                     <option>Público Geral</option>
                     <option>Público Privado</option>
                 </select>
-
-                {/* Area de atuação */}
-                <input className={styles.campos_form} id="area" onChange={(e) => dados_form(e)} placeholder="Area de atuação:" type="text"/>
-
-                {/* Biografia */}
-                <textarea className={styles.campos_form} id="biografia" onChange={(e) => dados_form(e)} placeholder="Insira sua Biografia:" type="text"></textarea>
-
-                {/* Link */}
-                <input className={styles.campos_form} id="link" onChange={(e) => dados_form(e)} placeholder="Insira o link dos seu repositorios:" type="text"/>
-
-                {/* campo senha */}
-                <input className={styles.campos_form} id="senha" onChange={(e) => dados_form(e)} placeholder="Senha:" type="password"/>
-                
-                {/* Foto de perfil */}
-                <input className={styles.campos_form} id="foto" onChange={(e) => dados_form(e)} placeholder="Coloque o link da foto de perfil:" type="text"/>
-                
-                {/* div de botão de abrir conta */}
+                <input className={styles.campos_form} id="area" onChange={dados_form} placeholder="Área de atuação:" type="text" />
+                <textarea className={styles.campos_form} id="biografia" onChange={dados_form} placeholder="Insira sua Biografia:" />
+                <input className={styles.campos_form} id="link" onChange={dados_form} placeholder="Insira o link dos seus repositórios:" type="text" />
+                <input className={styles.campos_form} id="senha" onChange={dados_form} placeholder="Senha:" type="password" />
+                <input className={styles.campos_form} id="foto" onChange={dados_form} placeholder="Link da foto de perfil:" type="text" />
 
                 <div className={styles.abrir_conta}>
-
-                    {/* Botão criar conta */}
-                    <Link to="/login"><input className={styles.botao_abrir_conta} onClick={() => {enviar(form.nome, form.email, form.perfil, form.area, form.biografia, form.link, form.foto, form.senha)}} type="button" value="Abrir conta"/></Link>
+                    <Link to="/login">
+                        <input className={styles.botao_abrir_conta} onClick={() => enviar(form.nome, form.email, form.perfil, form.area, form.biografia, form.link, form.foto, form.senha)} type="button" value="Abrir conta" />
+                    </Link>
                 </div>
             </form>
         </div>
-    )
+    );
 }
