@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import { PrismaClient } from "@prisma/client"
 import { v4 as uuidv4 } from 'uuid';
+import { criar_token } from "./authMiddleware.js";
 
 const app = express()
 const prisma = new PrismaClient()
@@ -14,7 +15,7 @@ app.use(
 )
 
 // Enviar o cadastro do artista e usuario até o banco
-app.get("/enviar_cadastro_de_artista", (request, response) => {
+app.post("/enviar_cadastro_de_artista", (request, response) => {
     const nome = request.query.nome
     const email = request.query.email
     const perfil = request.query.perfil
@@ -70,9 +71,16 @@ app.get("/validar", async (request, response) => {
         }
     })
 
+    let user_existe = false
+
+    if (if_email_true.length >= 0) {
+        user_existe = true
+
+    }
+
     try{
         if (senha == if_email_true[0].Senha) {
-            response.send(if_email_true[0])
+            response.send({"user_valido": user_existe, "token": criar_token(email)})
         } else {
             response.send(false)
         }
