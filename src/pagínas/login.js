@@ -28,18 +28,20 @@ export default function Login() {
         }
     }
 
-    async function login(dados2) {
+    function login() {
         try {
-            const response = await fetch(`http://localhost:3001/validar?email=${dados2.email}&senha=${dados2.senha}`);
-            const autenticacao = await response.json();
-            
-            if (!autenticacao.token) {
-                alert("Email ou senha estão incorretos");
-            } else {
-                // Armazena o token JWT no localStorage
-                localStorage.setItem("token", autenticacao.token);
-                window.location.href = "/portal_artistas"; // Redireciona para a página protegida
-            }
+            fetch(`http://localhost:3001/validar?email=${dados.email}&senha=${dados.senha}`).then(dados2 => dados2.json()).then(dados2 => {
+                if (dados2.user_valido === true) {
+                    // Armazena o token JWT no localStorage
+                    localStorage.setItem("token", dados2.token)
+                    window.location.href = "/portal_artistas"; // Redireciona para a página protegida
+
+                } else {
+                    alert("Email ou senha estão incorretos");
+
+                }
+            });
+
         } catch (error) {
             console.error("Erro ao fazer login:", error);
             alert("Ocorreu um erro. Tente novamente mais tarde.");
@@ -69,7 +71,7 @@ export default function Login() {
                     />
                     <input
                         className={`${styles.campos_form} ${styles.botao_enviar}`}
-                        onClick={() => login(dados)}
+                        onClick={() => login()}
                         type="button"
                         value="Entrar"
                     />
