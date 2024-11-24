@@ -6,7 +6,7 @@ export default function Criar_conta() {
     const [form, setForm] = useState({
         nome: "",
         email: "",
-        perfil: "",
+        perfil: "Público Geral",
         area: "",
         biografia: "",
         link: "",
@@ -22,31 +22,25 @@ export default function Criar_conta() {
     }
 
     async function enviar(nome, email, perfil, area, biografia, link, foto, senha) {
-        if (perfil.length === 0) {
-            perfil = "Público Geral";
-        }
 
         try {
-            const response = await fetch(`http://localhost:3001/enviar_cadastro_de_artista`, {
+            alert("Conta criada com sucesso!");
+            
+            await fetch(`http://localhost:3001/enviar_cadastro_de_artista?nome=${nome}&email=${email}&perfil=${perfil}&senha=${senha}&area=${area}&biografia=${biografia}&link=${link}&foto=${foto}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ nome, email, perfil, area, biografia, link, foto, senha }),
             });
 
-            const result = await response.json();
+            // localStorage.setItem("token", criar_token(email));
+            window.location.href = "/portal_artistas"; // Redireciona para a página protegida
 
-            if (result.token) {
-                localStorage.setItem("token", result.token);
-                alert("Conta criada com sucesso!");
-                window.location.href = "/portal_artistas"; // Redireciona para a página protegida
-            } else {
-                alert("Erro ao criar a conta. Verifique os dados e tente novamente.");
-            }
         } catch (error) {
+
             console.error("Erro:", error);
-            alert("Erro ao criar a conta. Tente novamente mais tarde.");
+            alert("Erro ao criar a conta. Verifique os dados e tente novamente.");
+
         }
     }
 
