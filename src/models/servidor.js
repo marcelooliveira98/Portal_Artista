@@ -1,196 +1,180 @@
-import express from "express"
-import cors from "cors"
-import { PrismaClient } from "@prisma/client"
-import { v4 as uuidv4 } from 'uuid';
-import { criar_token } from "./authMiddleware.js";
+const express = require("express");
+const { PrismaClient } = require("@prisma/client");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const { z } = require("zod"); // Importando o Zod
 
-const app = express()
-const prisma = new PrismaClient()
+dotenv.config(); // Carregar variáveis de ambiente
 
-app.use(
-    cors({
-        "origin": "*",
-        "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-    })
-)
+const app = express();
+const prisma = new PrismaClient();
 
-// Enviar o cadastro do artista e usuario até o banco
-app.post("/enviar_cadastro_de_artista", (request, response) => {
-    const nome = request.query.nome
-    const email = request.query.email
-    const perfil = request.query.perfil
-    const senha = request.query.senha
-    const area = request.query.area
-    const biografia = request.query.biografia
-    const link = request.query.link
-    const foto = request.query.foto
+app.use(cors({
+  origin: "http://127.0.0.1:3000", 
+}));
+app.use(express.json());
 
-    const id_user = uuidv4()
+// **Função para criar o token**
+const criar_token = (email) => {
+  const payload = { email };
+  const secret = process.env.JWT_SECRET; 
+  const options = { expiresIn: "1h" }; 
 
-    async function main()
-    {
-        await prisma.usuario.create({
-            data: {
-                UsuarioID: id_user,
-                Nome: nome,
-                Email: email,
-                Senha: senha,
-                Perfil: perfil,
-                DataCadastro: new Date().toISOString(),
-                Ativo: true
-            }
-        })
+  return jwt.sign(payload, secret, options);
+};
 
-        setTimeout(async () => {
-            await prisma.perfisArtistas.create({
-                data: {
-                    UsuarioID: id_user,
-                    AreaAtuacao: area,
-                    Biografia: biografia,
-                    LinkPortfolio: link,
-                    FotoPerfil: foto
-                }
-            }), 30000
-        })
-    }
-
-    main().then(() => prisma.$disconnect).catch((e) => {
-        console.log(e)
-        prisma.$disconnect()
-        process.exit(1)
-    })
-})
-
-app.get("/validar", async (request, response) => {
-    const email = request.query.email
-    const senha = request.query.senha
-
-    const if_email_true = await prisma.usuario.findMany({
-        where: {
-            "Email": email
-        }
-    })
-
-    let user_existe = false
-
-    if (if_email_true.length >= 0) {
-        user_existe = true
-
-    }
-
-    try{
-        if (senha == if_email_true[0].Senha) {
-            response.send({"user_valido": user_existe, "token": criar_token(email)})
-        } else {
-            response.send(false)
-        }
-    } catch (e) {
-        response.send(false)
-    }
-})
-
-app.get("/proj_collabe", async (request, response) => {
-    const titulo = request.query.titulo
-    const descricao = request.query.descricao
-    const area = request.query.area
-    const localizacao = request.query.localizacao
-    const tipo = request.query.tipo
-    const id_criador = request.query.criadorid
-
-    async function main()
-    {
-        try{
-            await prisma.projetosColaborativos.create({
-                data: {
-                    Titulo: titulo,
-                    Descricao: descricao,
-                    AreaAtuacaoNecessaria: area,
-                    Localizacao: localizacao,
-                    TipoColaboracao: tipo.toString(),
-                    CriadorID: id_criador,
-                    DataCriacao: new Date().toISOString()
-                }
-            })
-        } catch(e) {
-            console.log(e)
-        }
-    }
-
-    main().then(async () => await prisma.$disconnect()).catch(async (e) => {
-        console.log(e)
-        await prisma.$disconnect()
-        process.exit(1)
-    })
-})
-
-app.get("/get_project", (request, response) => {
-    const user_id = request.query.id
-
-    async function main()
-    {
-        let dados = await prisma.projetosColaborativos.findMany({
-            where: {
-                CriadorID: user_id
-            }
-        })
-
-        if (dados.length > 0) {
-            for (let i = 0; i < dados.length; i++) {
-                delete dados[i].ProjetoID
-                delete dados[i].AreaAtuacaoNecessaria
-                delete dados[i].Localizacao
-                delete dados[i].TipoColaboracao
-                delete dados[i].CriadorID
-                delete dados[i].DataCriacao
-            }
-    
-            response.send(dados)
-
-        } else {
-            response.send(false)
-        }
-    }
-
-    main().then(async () => await prisma.$disconnect()).catch(async (e) => {
-        console.log(e)
-        await prisma.$disconnect()
-        process.exit(1)
-    })
-})
-
-app.get('/editais', (req, res) => {
-    const titulo = req.query.titulo
-    const descricao = req.query.descricao
-    const categoria = req.query.categoria
-    let prazo = req.query.prazo
-    prazo = new Date(prazo).toISOString()
-    const detalhes = req.query.detalhes
-    const criterios = req.query.criterios
-    const processo = req.query.processo
-    const organizador = req.query.organizador
-
-    async function main()
-    {
-        await prisma.editais.create({
-            data: {
-                Titulo: titulo,
-                Descricao: descricao,
-                CategoriaArtistica: categoria,
-                PrazoInscricao: prazo,
-                DetalhesFinanciamento: detalhes,
-                CriteriosSelecao: criterios,
-                ProcessoInscricao: processo,
-                Organizador: organizador,
-                DataPublicacao: new Date().toISOString()
-            }
-        })
-    }
-
-    main().then(async () => await prisma.$disconnect()).catch(async (e) => {
-        console.log(e)
-        await prisma.$disconnect()
-        process.exit(1)
-    })
+// **Esquema de validação para cadastro de artista e usuário**
+const cadastroSchema = z.object({
+  nome: z.string().min(1, "Nome é obrigatório"),
+  email: z.string().email("E-mail inválido"),
+  senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  perfil: z.string().optional(),
+  area: z.string().min(1, "Área de atuação é obrigatória"),
+  biografia: z.string().optional(),
+  link: z.string().url().optional(),
+  foto: z.string().optional(),
 });
 
-app.listen(3001, () => {console.log("Servidor rodando")})
+// **Rota de cadastro de artista e usuário**
+app.post("/enviar_cadastro_de_artista", async (req, res) => {
+  const { nome, email, perfil, senha, area, biografia, link, foto } = req.body;
+
+  try {
+    // Validando os dados com o Zod
+    cadastroSchema.parse(req.body);
+
+    const id_user = uuidv4();
+    const senhaHash = await bcrypt.hash(senha, 10);
+
+    // Cadastrar usuário
+    await prisma.usuario.create({
+      data: {
+        UsuarioID: id_user,
+        Nome: nome,
+        Email: email,
+        Senha: senhaHash,
+        Perfil: perfil || "Público Geral",
+        DataCadastro: new Date().toISOString(),
+        Ativo: true,
+      },
+    });
+
+    // Cadastrar perfil de artista
+    await prisma.perfisArtistas.create({
+      data: {
+        UsuarioID: id_user,
+        AreaAtuacao: area,
+        Biografia: biografia,
+        LinkPortfolio: link,
+        FotoPerfil: foto,
+      },
+    });
+
+    res.status(201).json({ message: "Usuário e perfil cadastrados com sucesso" });
+  } catch (error) {
+    console.error(error);
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
+    res.status(500).json({ error: "Erro ao cadastrar usuário ou perfil" });
+  }
+});
+
+// **Esquema de validação para login**
+const loginSchema = z.object({
+  email: z.string().email("E-mail inválido"),
+  senha: z.string().min(6, "Senha inválida"),
+});
+
+// **Rota de validação/login de usuário**
+app.post("/validar", async (req, res) => {
+  const { email, senha } = req.body;
+
+  try {
+    // Validando os dados com o Zod
+    loginSchema.parse(req.body);
+
+    const usuario = await prisma.usuario.findUnique({
+      where: { Email: email },
+    });
+
+    if (!usuario) {
+      return res.status(401).json({ error: "Credenciais inválidas" });
+    }
+
+    const senhaValida = await bcrypt.compare(senha, usuario.Senha);
+    if (!senhaValida) {
+      return res.status(401).json({ error: "Credenciais inválidas" });
+    }
+
+    const token = criar_token(email);
+    res.status(200).json({ token, user: { id: usuario.UsuarioID, email } });
+  } catch (error) {
+    console.error(error);
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
+    res.status(500).json({ error: "Erro ao validar usuário" });
+  }
+});
+
+// **Esquema de validação para criação de edital**
+const editalSchema = z.object({
+  titulo: z.string().min(1, "Título é obrigatório"),
+  descricao: z.string().min(1, "Descrição é obrigatória"),
+  categoria: z.string().min(1, "Categoria é obrigatória"),
+  prazo: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    message: "Data do prazo é inválida",
+  }),
+  detalhes: z.string().optional(),
+  criterios: z.string().optional(),
+  processo: z.string().optional(),
+  organizador: z.string().min(1, "Organizador é obrigatório"),
+});
+
+// **Rota para criar edital**
+app.post("/editais", async (req, res) => {
+  const { titulo, descricao, categoria, prazo, detalhes, criterios, processo, organizador } = req.body;
+
+  try {
+    // Validando os dados com o Zod
+    editalSchema.parse(req.body);
+
+    await prisma.editais.create({
+      data: {
+        Titulo: titulo,
+        Descricao: descricao,
+        CategoriaArtistica: categoria,
+        PrazoInscricao: new Date(prazo).toISOString(),
+        DetalhesFinanciamento: detalhes,
+        CriteriosSelecao: criterios,
+        ProcessoInscricao: processo,
+        Organizador: organizador,
+        DataPublicacao: new Date().toISOString(),
+      },
+    });
+
+    res.status(201).json({ message: "Edital criado com sucesso" });
+  } catch (error) {
+    console.error(error);
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
+    res.status(500).json({ error: "Erro ao criar edital" });
+  }
+});
+
+// **Middleware de erro**
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Ocorreu um erro no servidor" });
+});
+
+// **Inicializar o servidor**
+const PORT = process.env.PORT || 3001; 
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});

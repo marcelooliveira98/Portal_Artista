@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.386deb56.css",
+    "main.js": "/static/js/main.ee5f96a3.js",
+    "static/js/453.f7eafa04.chunk.js": "/static/js/453.f7eafa04.chunk.js",
+    "static/media/Artistas.png": "/static/media/Artistas.fc63355980bdc0e5a920.png",
+    "static/media/Um menino e uma curuja.png": "/static/media/Um menino e uma curuja.0c6ae7da322a6e71b3ad.png",
+    "static/media/Fundo.jpg": "/static/media/Fundo.ba938981a625c95b0b11.jpg",
+    "static/media/Pinto.jpg": "/static/media/Pinto.2e4a652ed9b3fa529fd9.jpg",
+    "static/media/background login.jpg": "/static/media/background login.63600de863f46fe45de1.jpg",
+    "static/media/Icone homem.png": "/static/media/Icone homem.5e4f79fdd87ba096d7fe.png",
+    "static/media/Mensagem.png": "/static/media/Mensagem.926207b1f14b05af73b5.png",
+    "static/media/Icone mulher.png": "/static/media/Icone mulher.b9b835919f0d486cfe46.png",
+    "static/media/trabalho de artistas.jpg": "/static/media/trabalho de artistas.fc619cca0e25575269cb.jpg",
+    "static/media/Sino1.png": "/static/media/Sino1.08f2898c3a0cbb58f7ed.png",
+    "static/media/Lupa.png": "/static/media/Lupa.c7517edd71e731a008ee.png",
+    "static/media/Sino.png": "/static/media/Sino.4e9d2f0b08f4018a79bf.png",
+    "static/media/Triangulo laranja.png": "/static/media/Triangulo laranja.d7a4426b89874cf09112.png",
+    "index.html": "/index.html",
+    "main.386deb56.css.map": "/static/css/main.386deb56.css.map",
+    "main.ee5f96a3.js.map": "/static/js/main.ee5f96a3.js.map",
+    "453.f7eafa04.chunk.js.map": "/static/js/453.f7eafa04.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.386deb56.css",
+    "static/js/main.ee5f96a3.js"
+  ]
+}

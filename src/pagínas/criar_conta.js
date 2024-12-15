@@ -1,6 +1,6 @@
 import styles from "../Assets/css/criar_conta.module.css";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
 
 export default function Criar_conta() {
     const [form, setForm] = useState({
@@ -14,6 +14,9 @@ export default function Criar_conta() {
         senha: "",
     });
 
+    const [erro, setErro] = useState(""); 
+    const navigate = useNavigate(); 
+
     function dados_form(e) {
         setForm({
             ...form,
@@ -21,26 +24,33 @@ export default function Criar_conta() {
         });
     }
 
-    async function enviar(nome, email, perfil, area, biografia, link, foto, senha) {
+    // Função para validação e envio dos dados
+    async function enviar() {
+        if (!form.nome || !form.email || !form.area || !form.senha) {
+            setErro("Por favor, preencha todos os campos obrigatórios.");
+            return;
+        }
 
         try {
-            alert("Conta criada com sucesso!");
-            
-            await fetch(`http://localhost:3001/enviar_cadastro_de_artista?nome=${nome}&email=${email}&perfil=${perfil}&senha=${senha}&area=${area}&biografia=${biografia}&link=${link}&foto=${foto}`, {
-                method: 'POST',
+            const resposta = await fetch("http://localhost:3001/enviar_cadastro_de_artista", {
+                method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(form),
             });
 
-            // localStorage.setItem("token", criar_token(email));
-            window.location.href = "/portal_artistas"; // Redireciona para a página protegida
+            if (resposta.ok) {
+                alert("Conta criada com sucesso!");
+                navigate("/portal_artistas"); 
+            } else {
+                const erro = await resposta.json();
+                setErro(erro.message || "Erro ao criar a conta. Tente novamente.");
+            }
 
         } catch (error) {
-
             console.error("Erro:", error);
-            alert("Erro ao criar a conta. Verifique os dados e tente novamente.");
-
+            setErro("Erro ao criar a conta. Verifique os dados e tente novamente.");
         }
     }
 
@@ -49,6 +59,9 @@ export default function Criar_conta() {
             <form className={styles.formulario}>
                 <h1 className={styles.titulo}>Abra uma conta</h1>
                 <p className={styles.texto}>É gratuito</p>
+
+                {/* Exibindo mensagem de erro, se houver */}
+                {erro && <p className={styles.erro}>{erro}</p>}
 
                 <input className={styles.campos_form} id="nome" onChange={dados_form} placeholder="Nome:" type="text" />
                 <input className={styles.campos_form} id="email" onChange={dados_form} placeholder="Seu e-mail:" type="text" />
@@ -63,9 +76,7 @@ export default function Criar_conta() {
                 <input className={styles.campos_form} id="foto" onChange={dados_form} placeholder="Link da foto de perfil:" type="text" />
 
                 <div className={styles.abrir_conta}>
-                    <Link to="/login">
-                        <input className={styles.botao_abrir_conta} onClick={() => enviar(form.nome, form.email, form.perfil, form.area, form.biografia, form.link, form.foto, form.senha)} type="button" value="Abrir conta" />
-                    </Link>
+                    <button className={styles.botao_abrir_conta} onClick={enviar} type="button">Abrir conta</button>
                 </div>
             </form>
         </div>

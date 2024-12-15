@@ -1,95 +1,100 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
-
-// generator erd {
-//   provider = "prisma-erd-generator"
-  
-// }
 
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-model Usuario {
-  UsuarioID     String       @id
-  Nome          String
-  Email         String
-  Senha         String
-  Perfil        String    @default("Público Geral")
-  DataCadastro  DateTime?
-  Ativo         Boolean
-
-  // Relacionamentos
-  PerfisArtistas       PerfisArtistas[]
-  InscricoesEditais    InscricoesEditais[]
-  InscricoesEventos    InscricoesEventos[]
-  ProjetosColaborativos ProjetosColaborativos[]
-  ParticipacoesProjetos ParticipacoesProjetos[]
-  FeedbacksProjetos    FeedbacksProjetos[]
-  DuvidasSugestoesErros DuvidasSugestoesErros[]
+// ENUM para perfis de usuários
+enum Perfil {
+  "Público Geral"
+  "Artista"
+  "Organizador"
 }
 
+// Modelo de Usuário
+model Usuario {
+  UsuarioID     String       @id @default(uuid()) 
+  Nome          String       @db.VarChar(255)   
+  Email         String       @unique           
+  Senha         String       @db.VarChar(255)    
+  Perfil        Perfil       @default("Público Geral") 
+  DataCadastro  DateTime?    @default(now())    
+  Ativo         Boolean      @default(true)      
+
+  // Relacionamentos
+  PerfisArtistas       PerfisArtistas[]       @relation("UsuarioPerfisArtistas")
+  InscricoesEditais    InscricoesEditais[]     @relation("UsuarioInscricoesEditais")
+  InscricoesEventos    InscricoesEventos[]     @relation("UsuarioInscricoesEventos")
+  ProjetosColaborativos ProjetosColaborativos[] @relation("UsuarioProjetosColaborativos")
+  ParticipacoesProjetos ParticipacoesProjetos[] @relation("UsuarioParticipacoesProjetos")
+  FeedbacksProjetos    FeedbacksProjetos[]     @relation("UsuarioFeedbacksProjetos")
+  DuvidasSugestoesErros DuvidasSugestoesErros[] @relation("UsuarioDuvidasSugestoesErros")
+}
+
+// Modelo para Perfis de Artistas
 model PerfisArtistas {
   PerfilArtistaID String     @id @default(uuid())
   UsuarioID       String
-  AreaAtuacao     String
-  Biografia       String?
-  LinkPortfolio   String?
-  FotoPerfil      String?
+  AreaAtuacao     String     @db.VarChar(255)  
+  Biografia       String?    @db.VarChar(500)  
+  LinkPortfolio   String?    @db.VarChar(255)  
+  FotoPerfil      String?    @db.VarChar(255)  
 
-  // Relacionamento
-  usuario         Usuario  @relation(fields: [UsuarioID], references: [UsuarioID])
+  // Relacionamento com usuário
+  usuario         Usuario  @relation(fields: [UsuarioID], references: [UsuarioID], onDelete: Cascade)
 }
 
+// Modelo para Editais
 model Editais {
   EditalID             Int      @id @default(autoincrement())
-  Titulo               String
-  Descricao            String
-  CategoriaArtistica   String
+  Titulo               String   @db.VarChar(255)  
+  Descricao            String   @db.VarChar(1000) 
+  CategoriaArtistica   String   @db.VarChar(255)  
   PrazoInscricao       DateTime
-  DetalhesFinanciamento String?
-  CriteriosSelecao     String
-  ProcessoInscricao    String
-  Organizador          String
+  DetalhesFinanciamento String? @db.VarChar(1000) 
+  CriteriosSelecao     String   @db.VarChar(1000) 
+  ProcessoInscricao    String   @db.VarChar(1000) 
+  Organizador          String   @db.VarChar(255)  
   DataPublicacao       DateTime
 
   // Relacionamentos
-  InscricoesEditais InscricoesEditais[]
+  InscricoesEditais InscricoesEditais[] @relation("EditalInscricoes")
 }
 
+// Modelo para Inscrições em Editais
 model InscricoesEditais {
   InscricaoEditalID Int     @id @default(autoincrement())
   EditalID          Int
   UsuarioID         String
-  Status            String
+  Status            String   @db.VarChar(50)    
   DataInscricao     DateTime
-  Feedback          String?
+  Feedback          String?  @db.VarChar(1000) 
 
   // Relacionamentos
-  edital   Editais  @relation(fields: [EditalID], references: [EditalID])
-  usuario  Usuario  @relation(fields: [UsuarioID], references: [UsuarioID])
+  edital   Editais  @relation(fields: [EditalID], references: [EditalID], onDelete: Cascade)
+  usuario  Usuario  @relation(fields: [UsuarioID], references: [UsuarioID], onDelete: Cascade)
 }
 
+// Modelo para Eventos
 model Eventos {
   EventoID        Int     @id @default(autoincrement())
-  NomeEvento      String
-  Descricao       String
+  NomeEvento      String  @db.VarChar(255)  
+  Descricao       String  @db.VarChar(1000) 
   DataHora        DateTime
-  Localizacao     String
-  Organizador     String
-  InfoIngresso    String?
-  ImagemCartaz    String?
+  Localizacao     String  @db.VarChar(255)  
+  Organizador     String  @db.VarChar(255)  
+  InfoIngresso    String? @db.VarChar(1000) 
+  ImagemCartaz    String? @db.VarChar(255)  
   DataPublicacao  DateTime
 
   // Relacionamentos
-  InscricoesEventos InscricoesEventos[]
+  InscricoesEventos InscricoesEventos[] @relation("EventoInscricoes")
 }
 
+// Modelo para Inscrições em Eventos
 model InscricoesEventos {
   InscricaoEventoID Int     @id @default(autoincrement())
   EventoID          Int
@@ -97,26 +102,28 @@ model InscricoesEventos {
   DataInscricao     DateTime
 
   // Relacionamentos
-  evento   Eventos  @relation(fields: [EventoID], references: [EventoID])
-  usuario  Usuario  @relation(fields: [UsuarioID], references: [UsuarioID])
+  evento   Eventos  @relation(fields: [EventoID], references: [EventoID], onDelete: Cascade)
+  usuario  Usuario  @relation(fields: [UsuarioID], references: [UsuarioID], onDelete: Cascade)
 }
 
+// Modelo para Projetos Colaborativos
 model ProjetosColaborativos {
   ProjetoID            Int     @id @default(autoincrement())
-  Titulo               String
-  Descricao            String
-  AreaAtuacaoNecessaria String
-  Localizacao          String?
-  TipoColaboracao      String
+  Titulo               String  @db.VarChar(255)  
+  Descricao            String  @db.VarChar(1000) 
+  AreaAtuacaoNecessaria String @db.VarChar(255)  
+  Localizacao          String? @db.VarChar(255)  
+  TipoColaboracao      String  @db.VarChar(255) 
   CriadorID            String
   DataCriacao          DateTime
 
   // Relacionamentos
-  criador        Usuario  @relation(fields: [CriadorID], references: [UsuarioID])
-  ParticipacoesProjetos ParticipacoesProjetos[]
-  FeedbacksProjetos FeedbacksProjetos[]
+  criador        Usuario  @relation(fields: [CriadorID], references: [UsuarioID], onDelete: Cascade)
+  ParticipacoesProjetos ParticipacoesProjetos[] @relation("ProjetoParticipacoes")
+  FeedbacksProjetos FeedbacksProjetos[] @relation("ProjetoFeedbacks")
 }
 
+// Modelo para Participações em Projetos
 model ParticipacoesProjetos {
   ParticipacaoID  Int     @id @default(autoincrement())
   ProjetoID       Int
@@ -124,31 +131,33 @@ model ParticipacoesProjetos {
   DataParticipacao DateTime
 
   // Relacionamentos
-  projeto    ProjetosColaborativos  @relation(fields: [ProjetoID], references: [ProjetoID])
-  participante Usuario              @relation(fields: [ParticipanteID], references: [UsuarioID])
+  projeto    ProjetosColaborativos  @relation(fields: [ProjetoID], references: [ProjetoID], onDelete: Cascade)
+  participante Usuario              @relation(fields: [ParticipanteID], references: [UsuarioID], onDelete: Cascade)
 }
 
+// Modelo para Feedbacks em Projetos
 model FeedbacksProjetos {
   FeedbackID     Int     @id @default(autoincrement())
   ProjetoID      Int
   AutorID        String
-  Comentario     String?
-  Nota           Int?
+  Comentario     String? @db.VarChar(1000) 
+  Nota           Int?    // Nota do feedback
   DataFeedback   DateTime
 
   // Relacionamentos
-  projeto   ProjetosColaborativos  @relation(fields: [ProjetoID], references: [ProjetoID])
-  autor     Usuario                @relation(fields: [AutorID], references: [UsuarioID])
+  projeto   ProjetosColaborativos  @relation(fields: [ProjetoID], references: [ProjetoID], onDelete: Cascade)
+  autor     Usuario                @relation(fields: [AutorID], references: [UsuarioID], onDelete: Cascade)
 }
 
+// Modelo para Dúvidas, Sugestões e Erros
 model DuvidasSugestoesErros {
   DuvidaSugestaoErroID Int     @id @default(autoincrement())
   UsuarioID            String
-  Tipo                 String
-  Descricao            String
-  ArquivoAnexo         String
+  Tipo                 String  @db.VarChar(255) 
+  Descricao            String  @db.VarChar(1000) 
+  ArquivoAnexo         String? @db.VarChar(255)  
   DataEnvio            DateTime
 
   // Relacionamentos
-  usuario   Usuario  @relation(fields: [UsuarioID], references: [UsuarioID])
+  usuario   Usuario  @relation(fields: [UsuarioID], references: [UsuarioID], onDelete: Cascade)
 }
