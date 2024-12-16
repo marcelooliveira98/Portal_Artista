@@ -31,8 +31,8 @@ const cadastroSchema = z.object({
   nome: z.string().min(1, "Nome é obrigatório"),
   email: z.string().email("E-mail inválido"),
   senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-  perfil: z.string().optional(),
-  area: z.string().min(1, "Área de atuação é obrigatória"),
+  perfil: z.string().optional(),  // "Perfil" é opcional
+  area: z.string().optional(),    // "Área de atuação" agora é opcional
   biografia: z.string().optional(),
   link: z.string().url().optional(),
   foto: z.string().optional(),
@@ -56,7 +56,7 @@ app.post("/enviar_cadastro_de_artista", async (req, res) => {
         Nome: nome,
         Email: email,
         Senha: senhaHash,
-        Perfil: perfil || "Público Geral",
+        Perfil: perfil || "Público Geral",  // Se não passar perfil, será "Público Geral"
         DataCadastro: new Date().toISOString(),
         Ativo: true,
       },
@@ -66,10 +66,10 @@ app.post("/enviar_cadastro_de_artista", async (req, res) => {
     await prisma.perfisArtistas.create({
       data: {
         UsuarioID: id_user,
-        AreaAtuacao: area,
-        Biografia: biografia,
-        LinkPortfolio: link,
-        FotoPerfil: foto,
+        AreaAtuacao: area, // Se não passar, será null
+        Biografia: biografia,  // Se não passar, será null
+        LinkPortfolio: link,  // Se não passar, será null
+        FotoPerfil: foto,  // Se não passar, será null
       },
     });
 
